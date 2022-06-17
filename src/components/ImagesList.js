@@ -4,6 +4,8 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Container, Button, CircularProgress, Box, Dialog, DialogTitle } from '@mui/material';
 
+import ImageInfo from "./ImageInfo";
+
 const ImagesList = () => {
   const [images, setImages] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -11,6 +13,10 @@ const ImagesList = () => {
 
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selectedImageData, setSelectedImageData] = useState({ author:null, width:null, height:null });
+
+  const author = selectedImageData.author;
+  const width = selectedImageData.width;
+  const height = selectedImageData.height;
 
   const handleDialogOpen = ({ author, width, height }) => () => {
     setDialogOpen(true);
@@ -24,7 +30,7 @@ const ImagesList = () => {
 
   useEffect(() => {
     const params = {
-      page:`${page}`,
+      page:page,
       limit:10
     };
     
@@ -71,17 +77,7 @@ const ImagesList = () => {
       
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle sx={{ fontWeight:600, textAlign:"center" }}>Information</DialogTitle>
-        <Box p={1}>
-          <Box mb={1}>
-            Author: {selectedImageData.author}
-          </Box>
-          <Box  mb={1}>
-            Width: {selectedImageData.width}
-          </Box>
-          <Box  mb={1}>
-            Height: {selectedImageData.height}
-          </Box>
-        </Box>
+          <ImageInfo author={author} width={width} height={height} />
       </Dialog>
     </>
   );
